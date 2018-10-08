@@ -26,10 +26,10 @@ PR = "u${PV_UPDATE}"
 S = "${WORKDIR}"
 
 do_install () {
-  install -d -m 0755 ${D}${datadir}/ezdk-${PV}_${PV_UPDATE}
-  cp -a ${S}/ezdk-${PV}_${PV_UPDATE}-${BUILD_NUMBER}-${SUFFIX}/* ${D}${datadir}/ezdk-${PV}_${PV_UPDATE}
+  install -d -m 0755 ${D}${datadir}/zulu${BUILD_NUMBER}-jdk${PV}_${PV_UPDATE}-${SUFFIX}
+  cp -a ${S}/zulu${BUILD_NUMBER}-jdk${PV}_${PV_UPDATE}-${SUFFIX}/* ${D}${datadir}/zulu${BUILD_NUMBER}-jdk${PV}_${PV_UPDATE}-${SUFFIX}
   install -d -m 0755 ${D}${bindir}
-  ln -sf ${datadir}/ezdk-${PV}_${PV_UPDATE}/bin/java ${D}${bindir}/java
+  ln -sf ${datadir}/zulu${BUILD_NUMBER}-jdk${PV}_${PV_UPDATE}-${SUFFIX}/bin/java ${D}${bindir}/java
 }
 
 # All the files are provided in a binaray package, and keeping all the
