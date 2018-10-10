@@ -26,11 +26,24 @@ SRC_URI[sha256sum] = "17218c6bdd608b5714ffba9d5e28522bb2efc309266ba46232b8b918e6
 PR = "u${PV_UPDATE}"
 S = "${WORKDIR}"
 
-do_install () {
+#do_install () {
+#  install -d -m 0755 ${D}${datadir}/zulu${BUILD_NUMBER}-jdk${PV}_${PV_UPDATE}-${SUFFIX}
+#  cp -a ${S}/zulu${BUILD_NUMBER}-jdk${PV}_${PV_UPDATE}-${SUFFIX}/* ${D}${datadir}/zulu${BUILD_NUMBER}-jdk${PV}_${PV_UPDATE}-${SUFFIX}
+#  install -d -m 0755 ${D}${bindir}
+#  ln -sf ${datadir}/zulu${BUILD_NUMBER}-jdk${PV}_${PV_UPDATE}-${SUFFIX}/bin/java ${D}${bindir}/java
+#}
+
+python do_install () {
+    bb.build.exec_func("shell_do_install", d)
+    oe.path.make_relative_symlink(d.expand("${D}${bindir}/java"))
+}
+
+shell_do_install() {
   install -d -m 0755 ${D}${datadir}/zulu-${PV}_${PV_UPDATE}
   cp -a ${S}/zulu${VERSION}-jdk${BUILD_NUMBER}-${SUFFIX}/* ${D}${datadir}/zulu-${PV}_${PV_UPDATE}
   install -d -m 0755 ${D}${bindir}
   ln -sf ${datadir}/zulu-${PV}_${PV_UPDATE}/bin/java ${D}${bindir}/java
+
 }
 
 # All the files are provided in a binaray package, and keeping all the
@@ -43,4 +56,3 @@ RPROVIDES_${PN} = "zulu-jdk"
 PROVIDES += "virtual/java"
 
 DEPENDS = "alsa-lib libxi libxrender libxtst"
-

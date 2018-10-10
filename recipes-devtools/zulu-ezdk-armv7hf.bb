@@ -25,7 +25,12 @@ SRC_URI[sha256sum] = "fe014c3b8226d99521f0b1447f0337f27ea7689b653ee5015e48380636
 PR = "u${PV_UPDATE}"
 S = "${WORKDIR}"
 
-do_install () {
+python do_install () {
+    bb.build.exec_func("shell_do_install", d)
+    oe.path.make_relative_symlink(d.expand("${D}${bindir}/java"))
+}
+
+shell_do_install() {
   install -d -m 0755 ${D}${datadir}/zulu${BUILD_NUMBER}-jdk${PV}_${PV_UPDATE}-${SUFFIX}
   cp -a ${S}/zulu${BUILD_NUMBER}-jdk${PV}_${PV_UPDATE}-${SUFFIX}/* ${D}${datadir}/zulu${BUILD_NUMBER}-jdk${PV}_${PV_UPDATE}-${SUFFIX}
   install -d -m 0755 ${D}${bindir}
